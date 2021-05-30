@@ -10,3 +10,4 @@ Implement:
 - [ ] Cell color selection
 - [ ] Mixing the colors of the cells (if a new cell is formed by multi-colored cells, then the new cell must be a mixture of all parent ones) 
 - [ ] Change random number distributions generators
+- [ ] Replace Qt Widgets with QML
