@@ -1,5 +1,5 @@
 # game-of-life
-Realization of the Conway's Game of Life
+Implementation of the Conway's Game of Life
 
 # Project roadmap
 Implement:
