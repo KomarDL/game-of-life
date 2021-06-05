@@ -6,36 +6,48 @@
 #include <QWidget>
 #include <QVector>
 #include <QRect>
+#include <QColor>
 
 #include "cell.h"
 
 class GameField : public QWidget {
     Q_OBJECT
 public:
-    using row = QVector<std::shared_ptr<Cell>>;
+    using cell_ptr = std::shared_ptr<Cell>;
+    using row = QVector<cell_ptr>;
     static constexpr QSize DEFAULT_SIZE{50, 50};
 
     explicit GameField(QWidget* parent = nullptr);
     explicit GameField(const QSize& fieldSize = DEFAULT_SIZE, QWidget* parent = nullptr);
 
     QSize fieldSize() const noexcept { return m_fieldSize; }
+    QColor cellColor() const noexcept { return m_cellColor; }
 
 Q_SIGNALS:
     void fieldSizeChanged(QSize fieldSize);
+    void cellColorChanged(QColor color);
 public Q_SLOTS:
     void setFieldSize(QSize fieldSize);
+    void setCellColor(QColor color);
 
 protected:
     void paintEvent(QPaintEvent *event) override;
     void resizeEvent(QResizeEvent *event) override;
+    void mousePressEvent(QMouseEvent *event) override;
+    void mouseMoveEvent(QMouseEvent *event) override;
 
 private:
     QSize m_fieldSize;
     QVector<row> m_field;
+    QColor m_cellColor = Qt::black;
 
     void createField();
     void resizeField();
     QRectF generateInitialRect();
+    void handleMouseEvents(QMouseEvent *event);
+    cell_ptr getCellThatIncledusGivenCoord(const QPoint& coord);
+    int getCellRowThatIncledusGivenCoord(int y);
+    int getCellColumnThatIncledusGivenCoord(int x);
 };
 
 #endif // GAMEFIELD_H
