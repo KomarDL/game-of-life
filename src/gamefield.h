@@ -13,7 +13,7 @@ class GameField : public QWidget {
     Q_OBJECT
 public:
     using row = QVector<std::shared_ptr<Cell>>;
-    static constexpr QSize DEFAULT_SIZE{10, 10};
+    static constexpr QSize DEFAULT_SIZE{50, 50};
 
     explicit GameField(QWidget* parent = nullptr);
     explicit GameField(const QSize& fieldSize = DEFAULT_SIZE, QWidget* parent = nullptr);
@@ -27,6 +27,7 @@ public Q_SLOTS:
 
 protected:
     void paintEvent(QPaintEvent *event) override;
+    void resizeEvent(QResizeEvent *event) override;
 
 private:
     QSize m_fieldSize;
@@ -34,7 +35,7 @@ private:
 
     void createField();
     void resizeField();
-    QRect generateInitialRect();
+    QRectF generateInitialRect();
 };
 
 #endif // GAMEFIELD_H
