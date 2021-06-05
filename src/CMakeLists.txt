@@ -34,4 +34,9 @@ else()
   )
 endif()
 
+if(CMAKE_BUILD_TYPE STREQUAL "Release")
+    set_property(TARGET ${PROJECT_NAME}  PROPERTY WIN32_EXECUTABLE true)
+endif()
+
+
 target_link_libraries(game-of-life PRIVATE Qt${QT_VERSION_MAJOR}::Widgets)

@@ -111,6 +111,10 @@ QRectF GameField::generateInitialRect()
 
 void GameField::handleMouseEvents(QMouseEvent *event)
 {
+    if (!rect().contains(event->pos())) {
+        return;
+    }
+
     auto cell = getCellThatIncledusGivenCoord(event->pos());
     if (event->buttons() & Qt::MouseButton::LeftButton) {
         cell->setColor(m_cellColor);
