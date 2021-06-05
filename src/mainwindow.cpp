@@ -5,14 +5,15 @@
 MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent)
     , ui(new Ui::MainWindow)
+    , colorDialog(new QColorDialog(this))
 {
     ui->setupUi(this);
-    QColorDialog *colorDialog = new QColorDialog(this);
-//    colorDialog->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Expanding);
+    // make the color selection dialog a subwindow
     ui->gridLayout->addWidget(colorDialog, 0, 1);
     colorDialog->setWindowFlags(Qt::SubWindow);
-    /* a few options that we must set for it to work nicely */
     colorDialog->setOptions(QColorDialog::DontUseNativeDialog | QColorDialog::NoButtons);
+
+    connect(colorDialog, &QColorDialog::currentColorChanged, ui->gameField, &GameField::setCellColor);
 }
 
 MainWindow::~MainWindow()
