@@ -7,10 +7,21 @@
 #include <QRect>
 #include <QColor>
 
+enum class Neighbor {
+    TopLeft = 0,
+    Top = 1,
+    TopRight = 2,
+    Left = 3,
+    Right = 4,
+    BottomLeft = 5,
+    Bottom = 6,
+    BottomRight = 7
+};
 
 class Cell
 {
 public:
+
     static constexpr auto NEIGHBORS_AMOUNT = 8;
 
     explicit Cell(const QRectF& rect = {}, const QColor& color = Qt::white);
