@@ -123,7 +123,7 @@ void GameField::handleMouseEvents(QMouseEvent *event)
     }
 }
 
-GameField::cell_ptr GameField::getCellThatIncledusGivenCoord(const QPoint &coord)
+Global::cell_ptr GameField::getCellThatIncledusGivenCoord(const QPoint &coord)
 {
     auto row = getCellRowThatIncledusGivenCoord(coord.y());
     auto column = getCellColumnThatIncledusGivenCoord(coord.x());

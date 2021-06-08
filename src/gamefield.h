@@ -8,13 +8,12 @@
 #include <QRect>
 #include <QColor>
 
+#include "global.h"
 #include "cell.h"
 
 class GameField : public QWidget {
     Q_OBJECT
 public:
-    using cell_ptr = std::shared_ptr<Cell>;
-    using row = QVector<cell_ptr>;
     static constexpr QSize DEFAULT_SIZE{50, 50};
 
     explicit GameField(QWidget* parent = nullptr);
@@ -38,14 +37,14 @@ protected:
 
 private:
     QSize m_fieldSize;
-    QVector<row> m_field;
+    Global::field m_field;
     QColor m_cellColor = Qt::black;
 
     void createField();
     void resizeField();
     QRectF generateInitialRect();
     void handleMouseEvents(QMouseEvent *event);
-    cell_ptr getCellThatIncledusGivenCoord(const QPoint& coord);
+    Global::cell_ptr getCellThatIncledusGivenCoord(const QPoint& coord);
     int getCellRowThatIncledusGivenCoord(int y);
     int getCellColumnThatIncledusGivenCoord(int x);
 };
