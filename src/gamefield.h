@@ -10,6 +10,7 @@
 
 #include "global.h"
 #include "cell.h"
+#include "neighborfinder.h"
 
 class GameField : public QWidget {
     Q_OBJECT
@@ -20,14 +21,14 @@ public:
     explicit GameField(const QSize& fieldSize = DEFAULT_SIZE, QWidget* parent = nullptr);
 
     QSize fieldSize() const noexcept { return m_fieldSize; }
-    QColor cellColor() const noexcept { return m_cellColor; }
+    QColor cellBrushColor() const noexcept { return m_cellBrushColor; }
 
 Q_SIGNALS:
     void fieldSizeChanged(QSize fieldSize);
-    void cellColorChanged(QColor color);
+    void cellBrushColorChanged(QColor color);
 public Q_SLOTS:
     void setFieldSize(QSize fieldSize);
-    void setCellColor(QColor color);
+    void setCellBrushColor(QColor color);
 
 protected:
     void paintEvent(QPaintEvent *event) override;
@@ -38,13 +39,14 @@ protected:
 private:
     QSize m_fieldSize;
     Global::field m_field;
-    QColor m_cellColor = Qt::black;
+    QColor m_cellBrushColor = Qt::black;
+    std::unique_ptr<NeighborFinder> neighborFinder;
 
     void createField();
     void resizeField();
     QRectF generateInitialRect();
     void handleMouseEvents(QMouseEvent *event);
-    Global::cell_ptr getCellThatIncledusGivenCoord(const QPoint& coord);
+    Global::cell_ptr getCellThatIncludesGivenCoord(const QPoint& coord);
     int getCellRowThatIncledusGivenCoord(int y);
     int getCellColumnThatIncledusGivenCoord(int x);
 };

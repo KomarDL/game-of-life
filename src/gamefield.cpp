@@ -12,6 +12,7 @@ GameField::GameField(QWidget *parent) : GameField(DEFAULT_SIZE, parent)
 
 GameField::GameField(const QSize &fieldSize, QWidget *parent) : QWidget(parent)
     , m_fieldSize(fieldSize)
+    , neighborFinder(new NeighborFinder)
 {
     auto palette = this->palette();
     palette.setBrush(QPalette::Window, Qt::white);
@@ -33,13 +34,13 @@ void GameField::setFieldSize(QSize fieldSize)
     emit fieldSizeChanged(m_fieldSize);
 }
 
-void GameField::setCellColor(QColor color)
+void GameField::setCellBrushColor(QColor color)
 {
-    if (m_cellColor == color) {
+    if (m_cellBrushColor == color) {
         return;
     }
-    m_cellColor = color;
-    emit cellColorChanged(m_cellColor);
+    m_cellBrushColor = color;
+    emit cellBrushColorChanged(m_cellBrushColor);
 }
 
 void GameField::paintEvent(QPaintEvent *event)
@@ -115,15 +116,15 @@ void GameField::handleMouseEvents(QMouseEvent *event)
         return;
     }
 
-    auto cell = getCellThatIncledusGivenCoord(event->pos());
+    auto cell = getCellThatIncludesGivenCoord(event->pos());
     if (event->buttons() & Qt::MouseButton::LeftButton) {
-        cell->setColor(m_cellColor);
+        cell->setColor(m_cellBrushColor);
     } else if (event->buttons() & Qt::MouseButton::RightButton) {
         cell->setColor(Qt::white);
     }
 }
 
-Global::cell_ptr GameField::getCellThatIncledusGivenCoord(const QPoint &coord)
+Global::cell_ptr GameField::getCellThatIncludesGivenCoord(const QPoint &coord)
 {
     auto row = getCellRowThatIncledusGivenCoord(coord.y());
     auto column = getCellColumnThatIncledusGivenCoord(coord.x());

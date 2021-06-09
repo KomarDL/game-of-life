@@ -13,7 +13,7 @@ MainWindow::MainWindow(QWidget *parent)
     colorDialog->setWindowFlags(Qt::SubWindow);
     colorDialog->setOptions(QColorDialog::DontUseNativeDialog | QColorDialog::NoButtons);
 
-    connect(colorDialog, &QColorDialog::currentColorChanged, ui->gameField, &GameField::setCellColor);
+    connect(colorDialog, &QColorDialog::currentColorChanged, ui->gameField, &GameField::setCellBrushColor);
 }
 
 MainWindow::~MainWindow()
