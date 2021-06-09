@@ -12,7 +12,6 @@ GameField::GameField(QWidget *parent) : GameField(DEFAULT_SIZE, parent)
 
 GameField::GameField(const QSize &fieldSize, QWidget *parent) : QWidget(parent)
     , m_fieldSize(fieldSize)
-    , neighborFinder(new NeighborFinder)
 {
     auto palette = this->palette();
     palette.setBrush(QPalette::Window, Qt::white);

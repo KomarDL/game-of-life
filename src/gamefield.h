@@ -10,7 +10,6 @@
 
 #include "global.h"
 #include "cell.h"
-#include "neighborfinder.h"
 
 class GameField : public QWidget {
     Q_OBJECT
@@ -40,7 +39,6 @@ private:
     QSize m_fieldSize;
     Global::field m_field;
     QColor m_cellBrushColor = Qt::black;
-    std::unique_ptr<NeighborFinder> neighborFinder;
 
     void createField();
     void resizeField();

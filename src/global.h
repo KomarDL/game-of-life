@@ -3,6 +3,7 @@
 
 #include <memory>
 
+#include <QObject>
 #include <QVector>
 
 
@@ -13,5 +14,7 @@ namespace  Global {
     using row = QVector<cell_ptr>;
     using field = QVector<row>;
 }
+
+Q_DECLARE_METATYPE(Global::field)
 
 #endif // GLOBAL_H
