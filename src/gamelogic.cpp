@@ -21,7 +21,7 @@ void GameLogic::startGame(const Global::field &field)
     if (m_needNeighbors) {
         neighborFinder->fillNeighbors(m_field);
     }
-    m_timerId = startTimer(300ms);
+    m_timerId = startTimer(80ms);
     m_timerStarted = true;
     emit gameStarted();
 }

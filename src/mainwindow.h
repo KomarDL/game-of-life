@@ -4,6 +4,9 @@
 #include <QMainWindow>
 #include <QColorDialog>
 
+#include "gamelogic.h"
+#include "gamefield.h"
+
 QT_BEGIN_NAMESPACE
 namespace Ui { class MainWindow; }
 QT_END_NAMESPACE
@@ -16,8 +19,22 @@ public:
     MainWindow(QWidget *parent = nullptr);
     ~MainWindow();
 
+private slots:
+    void startGame();
+
+    void stopGame();
+
+    void clearField();
+
 private:
     Ui::MainWindow *ui;
-    QColorDialog* colorDialog;
+    QPushButton* m_startGamePushButton;
+    QPushButton* m_stopGamePushButton;
+    QPushButton* m_clearFieldPushButton;
+    GameField* m_gameField;
+    QColorDialog* m_colorDialog;
+    GameLogic* m_gameLogic;
+
+    void setupUi();
 };
 #endif // MAINWINDOW_H
