@@ -1,6 +1,7 @@
 #include "gamelogic.h"
 
 #include <QTimerEvent>
+#include <QtMath>
 
 #include "cell.h"
 
@@ -40,15 +41,16 @@ void GameLogic::stopGame()
 void GameLogic::timerEvent(QTimerEvent *event)
 {
     auto prevField = createFieldCopy();
-    for(auto i = 0; i < m_field.size(); ++i) {
+    for (auto i = 0; i < m_field.size(); ++i) {
         for (auto j = 0; j < m_field[i].size(); ++j) {
             auto neighborColors = getNeighborsColors(prevField[i][j]);
             const auto size = neighborColors.size();
-            auto& cell = m_field[i][j];
+            auto &cell = m_field[i][j];
             if (size < 2 || size > 3) {
-                cell->setColor(Qt::white);
-            } else if (size == 3 && cell->color() == Qt::white) {
-                cell->setColor(Qt::black);
+                cell->setColor(Global::DEAD_COLOR);
+            } else if (size == 3 && cell->color() == Global::DEAD_COLOR) {
+                cell->setColor(getResultColor(neighborColors));
+                //                cell->setColor(Qt::black);
             }
         }
     }
@@ -73,12 +75,28 @@ Global::field GameLogic::createFieldCopy()
 QVector<QColor> GameLogic::getNeighborsColors(const Global::cell_ptr &cell)
 {
     QVector<QColor> result;
-    for (const auto& neighbor: cell->neighbors()) {
+    for (const auto &neighbor : cell->neighbors()) {
         if (auto item = neighbor.lock()) {
-            if (item->color() != Qt::white) {
+            if (item->color() != Global::DEAD_COLOR) {
                 result.push_back(item->color());
             }
         }
     }
     return result;
+}
+
+QColor GameLogic::getResultColor(const QVector<QColor> &colors)
+{
+    auto result = colors.first();
+    for (auto i = 1; i < colors.size(); ++i) {
+        auto hue = (result.hue() + colors[i].hue()) / 2;
+        auto saturation = (result.saturation() + colors[i].saturation()) / 2;
+        auto value = (result.value() + colors[i].value()) / 2;
+        auto alpha = (result.alpha() + colors[i].alpha()) / 2;
+        result.setHsv(hue, saturation, value, alpha);
+        if (result == Global::DEAD_COLOR) {
+            result = Global::LIFE_COLOR;
+        }
+    }
+    return result /* = colors.first()*/;
 }
