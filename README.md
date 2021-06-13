@@ -8,6 +8,6 @@ Implement:
 - [ ] Generation of a random field
 - [x] Manual filling of the field
 - [x] Cell color selection
-- [ ] Mixing the colors of the cells (if a new cell is formed by multi-colored cells, then the new cell must be a mixture of all parent ones) 
+- [x] Blending cell colors (if a new cell is formed by multi-colored cells, then the new cell must be a mixture of all parent ones) 
 - [ ] Change random number distributions generators
 - [ ] Replace Qt Widgets with QML
