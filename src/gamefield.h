@@ -21,6 +21,7 @@ public:
 
     QSize fieldSize() const noexcept { return m_fieldSize; }
     QColor cellBrushColor() const noexcept { return m_cellBrushColor; }
+    Global::field field() const noexcept { return m_field; }
 
 Q_SIGNALS:
     void fieldSizeChanged(QSize fieldSize);
@@ -28,6 +29,7 @@ Q_SIGNALS:
 public Q_SLOTS:
     void setFieldSize(QSize fieldSize);
     void setCellBrushColor(QColor color);
+    void clearField();
 
 protected:
     void paintEvent(QPaintEvent *event) override;

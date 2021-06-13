@@ -5,13 +5,10 @@
 #include <QPainter>
 #include <QDebug>
 
-GameField::GameField(QWidget *parent) : GameField(DEFAULT_SIZE, parent)
-{
+GameField::GameField(QWidget *parent) : GameField(DEFAULT_SIZE, parent) { }
 
-}
-
-GameField::GameField(const QSize &fieldSize, QWidget *parent) : QWidget(parent)
-    , m_fieldSize(fieldSize)
+GameField::GameField(const QSize &fieldSize, QWidget *parent)
+    : QWidget(parent), m_fieldSize(fieldSize)
 {
     auto palette = this->palette();
     palette.setBrush(QPalette::Window, Qt::white);
@@ -42,12 +39,22 @@ void GameField::setCellBrushColor(QColor color)
     emit cellBrushColorChanged(m_cellBrushColor);
 }
 
+void GameField::clearField()
+{
+    for(auto& row : m_field) {
+        for(auto& cell : row) {
+            cell->setColor(Qt::white);
+        }
+    }
+    update();
+}
+
 void GameField::paintEvent(QPaintEvent *event)
 {
     QPainter p(this);
     p.setPen(Qt::black);
-    for (const auto& row : m_field) {
-        for (const auto& cell : row) {
+    for (const auto &row : qAsConst(m_field)) {
+        for (const auto &cell : row) {
             p.setBrush(cell->color());
             p.drawRect(cell->rect());
         }
@@ -79,10 +86,10 @@ void GameField::createField()
 {
     auto rowRect = generateInitialRect();
     for (auto i = 0; i < m_field.size(); ++i) {
-        auto& row = m_field[i];
+        auto &row = m_field[i];
         auto columnRect = rowRect;
         for (auto j = 0; j < row.size(); ++j) {
-            auto& cell = row[j];
+            auto &cell = row[j];
             if (cell == nullptr) {
                 cell = std::make_shared<Cell>();
             }
@@ -96,14 +103,14 @@ void GameField::createField()
 void GameField::resizeField()
 {
     m_field.resize(fieldSize().height());
-    for (auto& row : m_field) {
+    for (auto &row : m_field) {
         row.resize(fieldSize().width());
     }
 }
 
 QRectF GameField::generateInitialRect()
 {
-//    qDebug() << "width:" << this->width() << "height:" << this->height();
+    //    qDebug() << "width:" << this->width() << "height:" << this->height();
     auto rectWidth = qreal(this->width()) / fieldSize().width();
     auto rectHeigth = qreal(this->height()) / fieldSize().height();
     return QRectF(0, 0, rectWidth, rectHeigth);
