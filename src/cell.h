@@ -32,7 +32,10 @@ public:
     QColor color() const noexcept { return m_color; }
     void setColor(const QColor& color) noexcept { m_color = color; };
 
-    std::array<std::weak_ptr<Cell>, NEIGHBORS_AMOUNT> neighbors() const noexcept { return m_neighbors; }
+    std::array<std::weak_ptr<Cell>, NEIGHBORS_AMOUNT>& neighbors() noexcept
+    {
+        return m_neighbors;
+    }
 
 private:
     QRectF m_rect;

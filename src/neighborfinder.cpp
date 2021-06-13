@@ -11,7 +11,7 @@ void NeighborFinder::fillNeighbors(Global::field& field)
     const auto fieldSize = field.size();
     for (auto i = 0; i < fieldSize; ++i) {
         for (auto j = 0; j < fieldSize; ++j) {
-            auto neighbors = field[i][j]->neighbors();
+            auto& neighbors = field[i][j]->neighbors();
             neighbors[qint32(Neighbor::TopLeft)] = getTopLeftNeighbor(field, i, j);
             neighbors[qint32(Neighbor::Top)] = getTopNeighbor(field, i, j);
             neighbors[qint32(Neighbor::TopRight)] = getTopRightNeighbor(field, i, j);
