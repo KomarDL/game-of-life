@@ -14,20 +14,19 @@ public:
 Q_SIGNALS:
     void gameStarted();
     void gameStopped();
-
-//    void gamePaused();
-//    void gameContinues();
+    //    void gamePaused();
+    //    void gameContinues();
 
     void updateUi();
 
 public Q_SLOTS:
     void fieldWasChanged() { m_needNeighbors = true; }
 
-    void startGame(Global::field field);
+    void startGame(const Global::field &field);
     void stopGame();
 
-//    void pauseGame();
-//    void continueGame();
+    //    void pauseGame();
+    //    void continueGame();
 
 protected:
     void timerEvent(QTimerEvent *event) override;
@@ -39,6 +38,8 @@ private:
     bool m_timerStarted = false;
     int m_timerId = 0;
 
+    Global::field createFieldCopy();
+    QVector<QColor> getNeighborsColors(const Global::cell_ptr &cell);
 };
 
 #endif // GAMELOGIC_H
