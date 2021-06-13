@@ -7,6 +7,8 @@
 #include <QRect>
 #include <QColor>
 
+#include "global.h"
+
 enum class Neighbor {
     TopLeft = 0,
     Top = 1,
@@ -24,7 +26,7 @@ public:
 
     static constexpr auto NEIGHBORS_AMOUNT = 8;
 
-    explicit Cell(const QRectF& rect = {}, const QColor& color = Qt::white);
+    explicit Cell(const QRectF& rect = {}, const QColor& color = Global::DEAD_COLOR);
 
     QRectF rect() const noexcept { return m_rect; };
     void setRect(const QRectF& rect) noexcept { m_rect = rect; };

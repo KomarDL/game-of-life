@@ -11,7 +11,7 @@ GameField::GameField(const QSize &fieldSize, QWidget *parent)
     : QWidget(parent), m_fieldSize(fieldSize)
 {
     auto palette = this->palette();
-    palette.setBrush(QPalette::Window, Qt::white);
+    palette.setBrush(QPalette::Window, Global::DEAD_COLOR);
     setPalette(palette);
     setAutoFillBackground(true);
 
@@ -43,7 +43,7 @@ void GameField::clearField()
 {
     for(auto& row : m_field) {
         for(auto& cell : row) {
-            cell->setColor(Qt::white);
+            cell->setColor(Global::DEAD_COLOR);
         }
     }
     update();
@@ -52,7 +52,7 @@ void GameField::clearField()
 void GameField::paintEvent(QPaintEvent *event)
 {
     QPainter p(this);
-    p.setPen(Qt::black);
+    p.setPen(Global::LIFE_COLOR);
     for (const auto &row : qAsConst(m_field)) {
         for (const auto &cell : row) {
             p.setBrush(cell->color());
@@ -126,7 +126,7 @@ void GameField::handleMouseEvents(QMouseEvent *event)
     if (event->buttons() & Qt::MouseButton::LeftButton) {
         cell->setColor(m_cellBrushColor);
     } else if (event->buttons() & Qt::MouseButton::RightButton) {
-        cell->setColor(Qt::white);
+        cell->setColor(Global::DEAD_COLOR);
     }
 }
 
