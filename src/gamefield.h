@@ -8,27 +8,28 @@
 #include <QRect>
 #include <QColor>
 
+#include "global.h"
 #include "cell.h"
 
 class GameField : public QWidget {
     Q_OBJECT
 public:
-    using cell_ptr = std::shared_ptr<Cell>;
-    using row = QVector<cell_ptr>;
     static constexpr QSize DEFAULT_SIZE{50, 50};
 
     explicit GameField(QWidget* parent = nullptr);
     explicit GameField(const QSize& fieldSize = DEFAULT_SIZE, QWidget* parent = nullptr);
 
     QSize fieldSize() const noexcept { return m_fieldSize; }
-    QColor cellColor() const noexcept { return m_cellColor; }
+    QColor cellBrushColor() const noexcept { return m_cellBrushColor; }
+    Global::field field() const noexcept { return m_field; }
 
 Q_SIGNALS:
     void fieldSizeChanged(QSize fieldSize);
-    void cellColorChanged(QColor color);
+    void cellBrushColorChanged(QColor color);
 public Q_SLOTS:
     void setFieldSize(QSize fieldSize);
-    void setCellColor(QColor color);
+    void setCellBrushColor(QColor color);
+    void clearField();
 
 protected:
     void paintEvent(QPaintEvent *event) override;
@@ -38,14 +39,14 @@ protected:
 
 private:
     QSize m_fieldSize;
-    QVector<row> m_field;
-    QColor m_cellColor = Qt::black;
+    Global::field m_field;
+    QColor m_cellBrushColor = Qt::black;
 
     void createField();
     void resizeField();
     QRectF generateInitialRect();
     void handleMouseEvents(QMouseEvent *event);
-    cell_ptr getCellThatIncledusGivenCoord(const QPoint& coord);
+    Global::cell_ptr getCellThatIncludesGivenCoord(const QPoint& coord);
     int getCellRowThatIncledusGivenCoord(int y);
     int getCellColumnThatIncledusGivenCoord(int x);
 };
