@@ -16,12 +16,9 @@ MainWindow::MainWindow(QWidget *parent)
     ui->setupUi(this);
     setupUi();
 
-    connect(m_startGamePushButton, &QPushButton::clicked, this,
-            &MainWindow::startGame);
-    connect(m_stopGamePushButton, &QPushButton::clicked, this,
-            &MainWindow::stopGame);
-    connect(m_clearFieldPushButton, &QPushButton::clicked, this,
-            &MainWindow::clearField);
+    connect(m_startGamePushButton, &QPushButton::clicked, this, &MainWindow::startGame);
+    connect(m_stopGamePushButton, &QPushButton::clicked, this, &MainWindow::stopGame);
+    connect(m_clearFieldPushButton, &QPushButton::clicked, this, &MainWindow::clearField);
 
     connect(m_colorDialog, &QColorDialog::currentColorChanged, m_gameField,
             &GameField::setCellBrushColor);
@@ -58,7 +55,8 @@ void MainWindow::setupUi()
     ui->gridLayout->addWidget(m_colorDialog, 3, 1);
     // make the color selection dialog a subwindow
     m_colorDialog->setWindowFlags(Qt::SubWindow);
-    m_colorDialog->setOptions(QColorDialog::DontUseNativeDialog | QColorDialog::NoButtons);
+    m_colorDialog->setOptions(QColorDialog::DontUseNativeDialog | QColorDialog::NoButtons
+                              | QColorDialog::ShowAlphaChannel);
     // configure size policies
     m_gameField->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Expanding);
     m_startGamePushButton->setSizePolicy(QSizePolicy::Preferred, QSizePolicy::Preferred);

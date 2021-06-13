@@ -40,6 +40,7 @@ private:
 
     Global::field createFieldCopy();
     QVector<QColor> getNeighborsColors(const Global::cell_ptr &cell);
+    QColor getResultColor(const QVector<QColor> &colors);
 };
 
 #endif // GAMELOGIC_H
