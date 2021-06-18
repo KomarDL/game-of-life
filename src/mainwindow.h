@@ -36,5 +36,9 @@ private:
     GameLogic* m_gameLogic;
 
     void setupUi();
+    void addWidgets();
+    void configureWidgets();
+    void setSizePolicies();
+    void setControlsText();
 };
 #endif // MAINWINDOW_H
