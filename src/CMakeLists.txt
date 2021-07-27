@@ -14,14 +14,14 @@ set(CMAKE_ARCHIVE_OUTPUT_DIRECTORY "${BINARY_DIR}/lib")
 set(CMAKE_LIBRARY_OUTPUT_DIRECTORY "${BINARY_DIR}/lib")
 
 
-find_package(QT NAMES Qt6 Qt5 COMPONENTS Widgets REQUIRED)
-find_package(Qt${QT_VERSION_MAJOR} COMPONENTS Widgets REQUIRED)
+find_package(QT NAMES Qt6 Qt5 COMPONENTS Core Quick REQUIRED)
+find_package(Qt${QT_VERSION_MAJOR} COMPONENTS Core Quick REQUIRED)
 
 file(GLOB H_FILES ${CMAKE_CURRENT_SOURCE_DIR}/*.h)
 file(GLOB CPP_FILES ${CMAKE_CURRENT_SOURCE_DIR}/*.cpp)
-file(GLOB UI_FILES ${CMAKE_CURRENT_SOURCE_DIR}/*.ui)
+file(GLOB QRC_FILES ${CMAKE_CURRENT_SOURCE_DIR}/*.qrc)
 
-set(SOURCES ${CPP_FILES} ${H_FILES} ${UI_FILES})
+set(SOURCES ${CPP_FILES} ${H_FILES} ${QRC_FILES})
 
 
 if(ANDROID)
@@ -39,4 +39,12 @@ if(CMAKE_BUILD_TYPE STREQUAL "Release")
 endif()
 
 
-target_link_libraries(game-of-life PRIVATE Qt${QT_VERSION_MAJOR}::Widgets)
+target_compile_definitions(game-of-life
+  PRIVATE $<$<OR:$<CONFIG:Debug>,$<CONFIG:RelWithDebInfo>>:QT_QML_DEBUG>)
+  
+target_link_libraries(game-of-life
+  PRIVATE Qt${QT_VERSION_MAJOR}::Core Qt${QT_VERSION_MAJOR}::Quick)
+  
+if(QT_VERSION_MAJOR EQUAL 6)
+    qt_import_qml_plugins(game-of-life)
+endif()
