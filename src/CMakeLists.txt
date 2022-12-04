@@ -1,7 +1,7 @@
 cmake_minimum_required(VERSION 3.5)
 
 project(${PROJECT_NAME} LANGUAGES CXX)
-set(CMAKE_CXX_STANDARD 17)
+set(CMAKE_CXX_STANDARD 20)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 set(CMAKE_INCLUDE_CURRENT_DIR ON)
 set(CMAKE_AUTOMOC ON)
@@ -17,19 +17,31 @@ set(CMAKE_LIBRARY_OUTPUT_DIRECTORY "${BINARY_DIR}/lib")
 find_package(QT NAMES Qt6 Qt5 COMPONENTS Widgets REQUIRED)
 find_package(Qt${QT_VERSION_MAJOR} COMPONENTS Widgets REQUIRED)
 
-file(GLOB H_FILES ${CMAKE_CURRENT_SOURCE_DIR}/*.h)
-file(GLOB CPP_FILES ${CMAKE_CURRENT_SOURCE_DIR}/*.cpp)
-file(GLOB UI_FILES ${CMAKE_CURRENT_SOURCE_DIR}/*.ui)
+set(H_FILES ${CMAKE_CURRENT_SOURCE_DIR}/cell.h
+            ${CMAKE_CURRENT_SOURCE_DIR}/gamefield.h
+            ${CMAKE_CURRENT_SOURCE_DIR}/gamelogic.h
+            ${CMAKE_CURRENT_SOURCE_DIR}/global.h
+            ${CMAKE_CURRENT_SOURCE_DIR}/mainwindow.h
+            ${CMAKE_CURRENT_SOURCE_DIR}/neighborfinder.h)
+
+set(CPP_FILES ${CMAKE_CURRENT_SOURCE_DIR}/main.cpp
+              ${CMAKE_CURRENT_SOURCE_DIR}/cell.cpp
+              ${CMAKE_CURRENT_SOURCE_DIR}/gamefield.cpp
+              ${CMAKE_CURRENT_SOURCE_DIR}/gamelogic.cpp
+              ${CMAKE_CURRENT_SOURCE_DIR}/mainwindow.cpp
+              ${CMAKE_CURRENT_SOURCE_DIR}/neighborfinder.cpp)
+
+set(UI_FILES ${CMAKE_CURRENT_SOURCE_DIR}/mainwindow.ui)
 
 set(SOURCES ${CPP_FILES} ${H_FILES} ${UI_FILES})
 
 
 if(ANDROID)
-  add_library(game-of-life SHARED
+  add_library(${PROJECT_NAME} SHARED
     ${SOURCES}
   )
 else()
-  add_executable(game-of-life
+  add_executable(${PROJECT_NAME}
     ${SOURCES}
   )
 endif()
@@ -39,4 +51,4 @@ if(CMAKE_BUILD_TYPE STREQUAL "Release")
 endif()
 
 
-target_link_libraries(game-of-life PRIVATE Qt${QT_VERSION_MAJOR}::Widgets)
+target_link_libraries(${PROJECT_NAME} PRIVATE Qt${QT_VERSION_MAJOR}::Widgets)

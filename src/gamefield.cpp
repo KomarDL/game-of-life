@@ -1,4 +1,5 @@
 #include "gamefield.h"
+
 #include <QPaintEvent>
 #include <QResizeEvent>
 #include <QMouseEvent>
@@ -27,7 +28,7 @@ void GameField::setFieldSize(QSize fieldSize)
     m_fieldSize = fieldSize;
     resizeField();
     createField();
-    emit fieldSizeChanged(m_fieldSize);
+    Q_EMIT fieldSizeChanged(m_fieldSize);
 }
 
 void GameField::setCellBrushColor(QColor color)
@@ -36,7 +37,7 @@ void GameField::setCellBrushColor(QColor color)
         return;
     }
     m_cellBrushColor = color;
-    emit cellBrushColorChanged(m_cellBrushColor);
+    Q_EMIT cellBrushColorChanged(m_cellBrushColor);
 }
 
 void GameField::clearField()
@@ -130,7 +131,7 @@ void GameField::handleMouseEvents(QMouseEvent *event)
     }
 }
 
-Global::cell_ptr GameField::getCellThatIncludesGivenCoord(const QPoint &coord)
+Global::CellPtr GameField::getCellThatIncludesGivenCoord(const QPoint &coord)
 {
     auto row = getCellRowThatIncledusGivenCoord(coord.y());
     auto column = getCellColumnThatIncledusGivenCoord(coord.x());

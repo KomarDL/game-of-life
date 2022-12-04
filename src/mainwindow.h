@@ -1,5 +1,4 @@
-#ifndef MAINWINDOW_H
-#define MAINWINDOW_H
+#pragma once
 
 #include <QMainWindow>
 #include <QColorDialog>
@@ -41,4 +40,3 @@ private:
     void setSizePolicies();
     void setControlsText();
 };
-#endif // MAINWINDOW_H

@@ -1,5 +1,4 @@
-#ifndef GLOBAL_H
-#define GLOBAL_H
+#pragma once
 
 #include <memory>
 
@@ -10,13 +9,12 @@
 class Cell;
 
 namespace  Global {
-    using cell_ptr = std::shared_ptr<Cell>;
-    using row = QVector<cell_ptr>;
-    using field = QVector<row>;
+    using CellPtr = std::shared_ptr<Cell>;
+    using CellWeakPtr = std::weak_ptr<Cell>;
+    using Row = QVector<CellPtr>;
+    using Field = QVector<Row>;
     static constexpr auto DEAD_COLOR = Qt::white;
     static constexpr auto LIFE_COLOR = Qt::black;
 }
 
-Q_DECLARE_METATYPE(Global::field)
-
-#endif // GLOBAL_H
+Q_DECLARE_METATYPE(Global::Field)

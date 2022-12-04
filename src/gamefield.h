@@ -1,5 +1,4 @@
-#ifndef GAMEFIELD_H
-#define GAMEFIELD_H
+#pragma once
 
 #include <memory>
 
@@ -7,6 +6,7 @@
 #include <QVector>
 #include <QRect>
 #include <QColor>
+#include <QSize>
 
 #include "global.h"
 #include "cell.h"
@@ -21,7 +21,7 @@ public:
 
     QSize fieldSize() const noexcept { return m_fieldSize; }
     QColor cellBrushColor() const noexcept { return m_cellBrushColor; }
-    Global::field field() const noexcept { return m_field; }
+    Global::Field field() const noexcept { return m_field; }
 
 Q_SIGNALS:
     void fieldSizeChanged(QSize fieldSize);
@@ -39,16 +39,15 @@ protected:
 
 private:
     QSize m_fieldSize;
-    Global::field m_field;
+    Global::Field m_field;
     QColor m_cellBrushColor = Qt::black;
 
     void createField();
     void resizeField();
     QRectF generateInitialRect();
     void handleMouseEvents(QMouseEvent *event);
-    Global::cell_ptr getCellThatIncludesGivenCoord(const QPoint& coord);
+    Global::CellPtr getCellThatIncludesGivenCoord(const QPoint& coord);
     int getCellRowThatIncledusGivenCoord(int y);
     int getCellColumnThatIncledusGivenCoord(int x);
 };
 
-#endif // GAMEFIELD_H

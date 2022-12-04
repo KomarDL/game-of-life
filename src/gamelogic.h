@@ -1,5 +1,4 @@
-#ifndef GAMELOGIC_H
-#define GAMELOGIC_H
+#pragma once
 
 #include <QObject>
 #include "global.h"
@@ -22,7 +21,7 @@ Q_SIGNALS:
 public Q_SLOTS:
     void fieldWasChanged() { m_needNeighbors = true; }
 
-    void startGame(const Global::field &field);
+    void startGame(const Global::Field &field);
     void stopGame();
 
     //    void pauseGame();
@@ -32,15 +31,13 @@ protected:
     void timerEvent(QTimerEvent *event) override;
 
 private:
-    Global::field m_field;
+    Global::Field m_field;
     bool m_needNeighbors = true;
     std::unique_ptr<NeighborFinder> neighborFinder;
     bool m_timerStarted = false;
     int m_timerId = 0;
 
-    Global::field createFieldCopy();
-    QVector<QColor> getNeighborsColors(const Global::cell_ptr &cell);
+    Global::Field createFieldCopy();
+    QVector<QColor> getNeighborsColors(const Global::CellPtr &cell);
     QColor getResultColor(const QVector<QColor> &colors);
 };
-
-#endif // GAMELOGIC_H

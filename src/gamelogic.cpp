@@ -9,10 +9,10 @@ using namespace std::chrono_literals;
 
 GameLogic::GameLogic(QObject *parent) : QObject(parent), neighborFinder(new NeighborFinder)
 {
-    qRegisterMetaType<Global::field>("Global::field");
+    qRegisterMetaType<Global::Field>("Global::field");
 }
 
-void GameLogic::startGame(const Global::field &field)
+void GameLogic::startGame(const Global::Field &field)
 {
     if (m_timerStarted) {
         return;
@@ -24,7 +24,7 @@ void GameLogic::startGame(const Global::field &field)
     }
     m_timerId = startTimer(80ms);
     m_timerStarted = true;
-    emit gameStarted();
+    Q_EMIT gameStarted();
 }
 
 void GameLogic::stopGame()
@@ -35,7 +35,7 @@ void GameLogic::stopGame()
 
     killTimer(m_timerId);
     m_timerStarted = false;
-    emit gameStopped();
+    Q_EMIT gameStopped();
 }
 
 void GameLogic::timerEvent(QTimerEvent *event)
@@ -55,12 +55,12 @@ void GameLogic::timerEvent(QTimerEvent *event)
         }
     }
     event->accept();
-    emit updateUi();
+    Q_EMIT updateUi();
 }
 
-Global::field GameLogic::createFieldCopy()
+Global::Field GameLogic::createFieldCopy()
 {
-    Global::field result;
+    Global::Field result;
     result.resize(m_field.size());
     for (auto i = 0; i < m_field.size(); ++i) {
         result[i].reserve(m_field[i].size());
@@ -72,7 +72,7 @@ Global::field GameLogic::createFieldCopy()
     return result;
 }
 
-QVector<QColor> GameLogic::getNeighborsColors(const Global::cell_ptr &cell)
+QVector<QColor> GameLogic::getNeighborsColors(const Global::CellPtr &cell)
 {
     QVector<QColor> result;
     for (const auto &neighbor : cell->neighbors()) {

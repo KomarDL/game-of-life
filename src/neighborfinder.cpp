@@ -6,7 +6,7 @@ NeighborFinder::NeighborFinder(QObject* parent)
 {
 }
 
-void NeighborFinder::fillNeighbors(Global::field& field)
+void NeighborFinder::fillNeighbors(Global::Field& field)
 {
     const auto fieldSize = field.size();
     for (auto i = 0; i < fieldSize; ++i) {
@@ -22,10 +22,10 @@ void NeighborFinder::fillNeighbors(Global::field& field)
             neighbors[qint32(Neighbor::BottomRight)] = getBottomRightNeighbor(field, i, j);
         }
     }
-    emit neighborsFilled();
+    Q_EMIT neighborsFilled();
 }
 
-qint32 NeighborFinder::getTopRowIndex(const Global::field &field, const qint32 row)
+qint32 NeighborFinder::getTopRowIndex(const Global::Field &field, const qint32 row)
 {
     auto result = row - 1;
     if (result < 0) {
@@ -34,12 +34,12 @@ qint32 NeighborFinder::getTopRowIndex(const Global::field &field, const qint32 r
     return result;
 }
 
-qint32 NeighborFinder::getBottomRowIndex(const Global::field &field, const qint32 row)
+qint32 NeighborFinder::getBottomRowIndex(const Global::Field &field, const qint32 row)
 {
     return (row + 1) % field.size();
 }
 
-qint32 NeighborFinder::getLeftColumnIndex(const Global::field &field, const qint32 column)
+qint32 NeighborFinder::getLeftColumnIndex(const Global::Field &field, const qint32 column)
 {
     auto result = column - 1;
     if (result < 0) {
@@ -48,57 +48,57 @@ qint32 NeighborFinder::getLeftColumnIndex(const Global::field &field, const qint
     return result;
 }
 
-qint32 NeighborFinder::getRightColumnIndex(const Global::field &field, const qint32 column)
+qint32 NeighborFinder::getRightColumnIndex(const Global::Field &field, const qint32 column)
 {
     return (column + 1) % field.constFirst().size();
 }
 
-const Global::cell_ptr& NeighborFinder::getTopLeftNeighbor(const Global::field& field, const qint32 row, const qint32 column)
+const Global::CellPtr& NeighborFinder::getTopLeftNeighbor(const Global::Field& field, const qint32 row, const qint32 column)
 {
     auto resultRow = getTopRowIndex(field, row);
     auto resultColumn = getLeftColumnIndex(field, column);
     return field[resultRow][resultColumn];
 }
 
-const Global::cell_ptr& NeighborFinder::getTopNeighbor(const Global::field& field, const qint32 row, const qint32 column)
+const Global::CellPtr& NeighborFinder::getTopNeighbor(const Global::Field& field, const qint32 row, const qint32 column)
 {
     auto resultRow = getTopRowIndex(field, row);
     return field[resultRow][column];
 }
 
-const Global::cell_ptr& NeighborFinder::getTopRightNeighbor(const Global::field& field, const qint32 row, const qint32 column)
+const Global::CellPtr& NeighborFinder::getTopRightNeighbor(const Global::Field& field, const qint32 row, const qint32 column)
 {
     auto resultRow = getTopRowIndex(field, row);
     auto resultColumn = getRightColumnIndex(field, column);
     return field[resultRow][resultColumn];
 }
 
-const Global::cell_ptr& NeighborFinder::getLeftNeighbor(const Global::field& field, const qint32 row, const qint32 column)
+const Global::CellPtr& NeighborFinder::getLeftNeighbor(const Global::Field& field, const qint32 row, const qint32 column)
 {
     auto resultColumn = getLeftColumnIndex(field, column);
     return field[row][resultColumn];
 }
 
-const Global::cell_ptr& NeighborFinder::getRightNeighbor(const Global::field& field, const qint32 row, const qint32 column)
+const Global::CellPtr& NeighborFinder::getRightNeighbor(const Global::Field& field, const qint32 row, const qint32 column)
 {
     auto resultColumn = getRightColumnIndex(field, column);
     return field[row][resultColumn];
 }
 
-const Global::cell_ptr& NeighborFinder::getBottomLeftNeighbor(const Global::field& field, const qint32 row, const qint32 column)
+const Global::CellPtr& NeighborFinder::getBottomLeftNeighbor(const Global::Field& field, const qint32 row, const qint32 column)
 {
     auto resultRow = getBottomRowIndex(field, row);
     auto resultColumn = getLeftColumnIndex(field, column);
     return field[resultRow][resultColumn];
 }
 
-const Global::cell_ptr& NeighborFinder::getBottomNeighbor(const Global::field& field, const qint32 row, const qint32 column)
+const Global::CellPtr& NeighborFinder::getBottomNeighbor(const Global::Field& field, const qint32 row, const qint32 column)
 {
     auto resultRow = getBottomRowIndex(field, row);
     return field[resultRow][column];
 }
 
-const Global::cell_ptr& NeighborFinder::getBottomRightNeighbor(const Global::field& field, const qint32 row, const qint32 column)
+const Global::CellPtr& NeighborFinder::getBottomRightNeighbor(const Global::Field& field, const qint32 row, const qint32 column)
 {
     auto resultRow = getBottomRowIndex(field, row);
     auto resultColumn = getRightColumnIndex(field, column);
