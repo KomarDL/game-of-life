@@ -1,15 +1,12 @@
 #ifndef GAMEFIELD_H
 #define GAMEFIELD_H
 
-#include <memory>
-
 #include <QWidget>
 #include <QVector>
 #include <QRect>
 #include <QColor>
 
 #include "global.h"
-#include "cell.h"
 
 class GameField : public QWidget {
     Q_OBJECT

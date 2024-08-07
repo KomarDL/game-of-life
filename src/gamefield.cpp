@@ -5,6 +5,8 @@
 #include <QPainter>
 #include <QDebug>
 
+#include "cell.h"
+
 GameField::GameField(QWidget *parent) : GameField(DEFAULT_SIZE, parent) { }
 
 GameField::GameField(const QSize &fieldSize, QWidget *parent)
@@ -53,7 +55,7 @@ void GameField::paintEvent(QPaintEvent *event)
 {
     QPainter p(this);
     p.setPen(Global::LIFE_COLOR);
-    for (const auto &row : qAsConst(m_field)) {
+    for (const auto &row : std::as_const(m_field)) {
         for (const auto &cell : row) {
             p.setBrush(cell->color());
             p.drawRect(cell->rect());

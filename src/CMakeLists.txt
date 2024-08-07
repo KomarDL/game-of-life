@@ -31,6 +31,7 @@ if(ANDROID)
 else()
   add_executable(game-of-life
     ${SOURCES}
+    gamefieldwidget.h gamefieldwidget.cpp gamefieldwidget.ui
   )
 endif()
 

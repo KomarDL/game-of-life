@@ -50,7 +50,6 @@ void GameLogic::timerEvent(QTimerEvent *event)
                 cell->setColor(Global::DEAD_COLOR);
             } else if (size == 3 && cell->color() == Global::DEAD_COLOR) {
                 cell->setColor(getResultColor(neighborColors));
-                //                cell->setColor(Qt::black);
             }
         }
     }

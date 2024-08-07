@@ -1,5 +1,6 @@
 #include "mainwindow.h"
 #include "./ui_mainwindow.h"
+#include "gamemodel.h"
 #include <QColorDialog>
 #include <QPushButton>
 
@@ -48,23 +49,23 @@ void MainWindow::clearField()
 
 void MainWindow::setupUi()
 {
-    ui->gridLayout->addWidget(m_gameField, 0, 0, 4, 1);
-    ui->gridLayout->addWidget(m_startGamePushButton, 0, 1);
-    ui->gridLayout->addWidget(m_stopGamePushButton, 1, 1);
-    ui->gridLayout->addWidget(m_clearFieldPushButton, 2, 1);
-    ui->gridLayout->addWidget(m_colorDialog, 3, 1);
-    // make the color selection dialog a subwindow
-    m_colorDialog->setWindowFlags(Qt::SubWindow);
-    m_colorDialog->setOptions(QColorDialog::DontUseNativeDialog | QColorDialog::NoButtons
-                              | QColorDialog::ShowAlphaChannel);
-    // configure size policies
-    m_gameField->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Expanding);
-    m_startGamePushButton->setSizePolicy(QSizePolicy::Preferred, QSizePolicy::Preferred);
-    m_stopGamePushButton->setSizePolicy(QSizePolicy::Preferred, QSizePolicy::Preferred);
-    m_clearFieldPushButton->setSizePolicy(QSizePolicy::Preferred, QSizePolicy::Preferred);
-    m_colorDialog->setSizePolicy(QSizePolicy::Preferred, QSizePolicy::Preferred);
-    // add text to buttons
-    m_startGamePushButton->setText(QStringLiteral("Start game"));
-    m_stopGamePushButton->setText(QStringLiteral("Stop game"));
-    m_clearFieldPushButton->setText(QStringLiteral("Clear field"));
+    // ui->gridLayout->addWidget(m_gameField, 0, 0, 4, 1);
+    // ui->gridLayout->addWidget(m_startGamePushButton, 0, 1);
+    // ui->gridLayout->addWidget(m_stopGamePushButton, 1, 1);
+    // ui->gridLayout->addWidget(m_clearFieldPushButton, 2, 1);
+    // ui->gridLayout->addWidget(m_colorDialog, 3, 1);
+    // // make the color selection dialog a subwindow
+    // m_colorDialog->setWindowFlags(Qt::SubWindow);
+    // m_colorDialog->setOptions(QColorDialog::DontUseNativeDialog | QColorDialog::NoButtons
+    //                           | QColorDialog::ShowAlphaChannel);
+    // // configure size policies
+    // m_gameField->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Expanding);
+    // m_startGamePushButton->setSizePolicy(QSizePolicy::Preferred, QSizePolicy::Preferred);
+    // m_stopGamePushButton->setSizePolicy(QSizePolicy::Preferred, QSizePolicy::Preferred);
+    // m_clearFieldPushButton->setSizePolicy(QSizePolicy::Preferred, QSizePolicy::Preferred);
+    // m_colorDialog->setSizePolicy(QSizePolicy::Preferred, QSizePolicy::Preferred);
+    // // add text to buttons
+    // m_startGamePushButton->setText(QStringLiteral("Start game"));
+    // m_stopGamePushButton->setText(QStringLiteral("Stop game"));
+    // m_clearFieldPushButton->setText(QStringLiteral("Clear field"));
 }
