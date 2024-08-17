@@ -1,5 +1,4 @@
-#ifndef CELL_H
-#define CELL_H
+#pragma once
 
 #include <memory>
 #include <array>
@@ -26,7 +25,12 @@ public:
 
     static constexpr auto NEIGHBORS_AMOUNT = 8;
 
-    explicit Cell(const QRectF& rect = {}, const QColor& color = Global::DEAD_COLOR);
+    Cell(const QRectF &rect = {}, const QColor &color = Global::DEAD_COLOR)
+        : m_rect(rect)
+        , m_color(color)
+    {
+
+    }
 
     QRectF rect() const noexcept { return m_rect; };
     void setRect(const QRectF& rect) noexcept { m_rect = rect; };
@@ -44,5 +48,3 @@ private:
     QColor m_color;
     std::array<std::weak_ptr<Cell>, NEIGHBORS_AMOUNT> m_neighbors;
 };
-
-#endif // CELL_H

@@ -7,6 +7,6 @@ Implement:
 - [ ] Change the size of the field
 - [ ] Default pattern library
 - [x] Manual filling of the field
-- [x] Cell color selection
-- [x] Blending cell colors (if a new cell is formed by multi-colored cells, then the new cell must be a mixture of all parent ones) 
-- [ ] Replace Qt Widgets with QML
+- [ ] Cell color selection
+	- [ ] Blending cell colors (if a new cell is formed by multi-colored cells, then the new cell must be a mixture of all parent ones) 
+- [X] Replace Qt Widgets with QML
