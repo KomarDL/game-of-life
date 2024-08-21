@@ -4,7 +4,7 @@ project(game-of-life VERSION 0.1 LANGUAGES CXX)
 
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
-find_package(Qt6 REQUIRED COMPONENTS Core Qml Quick)
+find_package(Qt6 REQUIRED COMPONENTS Core Qml Quick Widgets)
 
 qt_standard_project_setup(REQUIRES 6.5)
 
@@ -18,6 +18,7 @@ target_link_libraries(game-of-life PRIVATE
     Qt6::Core
     Qt6::Qml
     Qt6::Quick
+    Qt6::Widgets
 )
 
 qt_add_qml_module(game-of-life
@@ -26,7 +27,7 @@ qt_add_qml_module(game-of-life
     QML_FILES
         Main.qml
     SOURCES
-        gamemodel.h gamemodel.cpp 
+        gamemodel.h gamemodel.cpp
 )
 
 # Qt for iOS sets MACOSX_BUNDLE_GUI_IDENTIFIER automatically since Qt 6.1.

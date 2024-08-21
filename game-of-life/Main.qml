@@ -2,6 +2,7 @@ import QtQuick
 import QtQuick.Layouts
 import QtQuick.Controls
 import Qt.labs.qmlmodels
+import Qt.labs.platform
 
 import game.of.life
 
@@ -64,9 +65,26 @@ Window {
 
                 onClicked: gameModel.clear()
             }
+
+            Rectangle {
+                color: colorPicker.currentColor
+                Layout.minimumHeight: 50
+                Layout.preferredHeight: 100
+                Layout.preferredWidth: 100
+
+                MouseArea {
+                    anchors.fill: parent
+                    onDoubleClicked: colorPicker.open()
+                }
+            }
         }
+    }
 
-
+    ColorDialog {
+        id: colorPicker
+        options: ColorDialog.NoButtons
+        modality: Qt.NonModal
+        flags: Qt.Widget
     }
 
     Timer {
@@ -91,7 +109,7 @@ Window {
                 acceptedButtons: Qt.LeftButton | Qt.RightButton
                 onClicked: function(event) {
                     if (event.button === Qt.LeftButton) {
-                        model.color = "cyan"
+                        model.color = colorPicker.currentColor
                     } else if (event.button === Qt.RightButton) {
                         model.color = gameModel.deadColor
                     }
