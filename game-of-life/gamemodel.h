@@ -12,6 +12,11 @@ class GameModel : public QAbstractTableModel
     QML_ELEMENT
     Q_PROPERTY(QColor deadColor READ deadColor CONSTANT FINAL)
 public:
+    enum RoleNames {
+        ColorRole = 0x100
+    };
+    Q_ENUM(RoleNames)
+
     GameModel(QObject* parent = nullptr);
 
     int rowCount(const QModelIndex& parent = QModelIndex()) const override;

@@ -3,7 +3,6 @@
 #include <QPoint>
 
 static constexpr auto FIELD_SIZE = 50;
-static constexpr auto ColorRole = Qt::UserRole;
 
 GameModel::GameModel(QObject *parent) : QAbstractTableModel(parent)
 {

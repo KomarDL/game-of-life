@@ -43,6 +43,35 @@ Window {
 
                 delegate: cellDelegate
             }
+
+            MouseArea {
+                anchors.fill: parent
+                acceptedButtons: Qt.LeftButton | Qt.RightButton
+
+                onClicked: function(event) {
+                    let point = table.cellAtPosition(event.x, event.y, true)
+                    let ind = table.model.index(point.y, point.x)
+                    if (event.button === Qt.LeftButton) {
+                        let res = table.model.setData(ind, colorPicker.currentColor, GameModel.ColorRole)
+                    } else if (event.button === Qt.RightButton) {
+                        table.model.setData(ind, table.model.deadColor, GameModel.ColorRole)
+                    }
+
+                    event.accepted = true
+                }
+
+                onPositionChanged: function(event) {
+                    let point = table.cellAtPosition(event.x, event.y, true)
+                    let ind = table.model.index(point.y, point.x)
+                    if (event.buttons & Qt.LeftButton) {
+                        let res = table.model.setData(ind, colorPicker.currentColor, GameModel.ColorRole)
+                    } else if (event.buttons & Qt.RightButton) {
+                        table.model.setData(ind, table.model.deadColor, GameModel.ColorRole)
+                    }
+
+                    event.accepted = true
+                }
+            }
         }
 
         ColumnLayout {
@@ -103,27 +132,10 @@ Window {
             color: model.color
             implicitHeight: 1
             implicitWidth: 1
-
-            MouseArea {
-                anchors.fill: parent
-                acceptedButtons: Qt.LeftButton | Qt.RightButton
-                onClicked: function(event) {
-                    if (event.button === Qt.LeftButton) {
-                        model.color = colorPicker.currentColor
-                    } else if (event.button === Qt.RightButton) {
-                        model.color = gameModel.deadColor
-                    }
-                    event.accepted = true
-                }
-            }
         }
     }
 
     GameModel {
         id: gameModel
     }
-
-
-
-
 }
