@@ -2,7 +2,7 @@
 
 #include <QPoint>
 
-static constexpr auto FIELD_SIZE = 50;
+static constexpr auto DEFAULT_FIELD_SIZE = 50;
 
 GameModel::GameModel(QObject *parent) : QAbstractTableModel(parent)
 {
@@ -12,13 +12,13 @@ GameModel::GameModel(QObject *parent) : QAbstractTableModel(parent)
 int GameModel::rowCount(const QModelIndex &parent) const
 {
     Q_UNUSED(parent)
-    return FIELD_SIZE;
+    return m_field.size();
 }
 
 int GameModel::columnCount(const QModelIndex &parent) const
 {
     Q_UNUSED(parent)
-    return FIELD_SIZE;
+    return m_field.first().size();
 }
 
 QVariant GameModel::data(const QModelIndex &index, int role) const
@@ -27,7 +27,7 @@ QVariant GameModel::data(const QModelIndex &index, int role) const
         return {};
     }
 
-    if (index.row() >= FIELD_SIZE || index.column() >= FIELD_SIZE) {
+    if (index.row() >= rowCount() || index.column() >= columnCount()) {
         return {};
     }
 
@@ -54,7 +54,7 @@ bool GameModel::setData(const QModelIndex &index, const QVariant &value, int rol
         return {};
     }
 
-    if (index.row() >= FIELD_SIZE || index.column() >= FIELD_SIZE) {
+    if (index.row() >= rowCount() || index.column() >= columnCount()) {
         return {};
     }
 
@@ -76,6 +76,64 @@ QHash<int, QByteArray> GameModel::roleNames() const
     return roles;
 }
 
+bool GameModel::insertColumns(int column, int count, const QModelIndex &parent)
+{
+    if (count <= 0) {
+        return true;
+    }
+
+    const auto oldColumnCount = columnCount();
+    beginInsertColumns(parent, oldColumnCount, oldColumnCount + count - 1);
+
+    const Global::row tail(count, deadColor());
+    for(auto& row : m_field) {
+        row.append(tail);
+    }
+
+    endInsertColumns();
+    return true;
+}
+
+bool GameModel::removeColumns(int column, int count, const QModelIndex &parent)
+{
+    if (count >= columnCount()) {
+        return false;
+    }
+
+    const auto oldColumnCount = columnCount();
+    beginRemoveColumns(parent, oldColumnCount - count, oldColumnCount - 1);
+
+    for(auto& row : m_field) {
+        row.resize(oldColumnCount - count);
+    }
+
+    endRemoveColumns();
+    return true;
+}
+
+bool GameModel::insertRows(int row, int count, const QModelIndex &parent)
+{
+    Global::row newRow(columnCount(), deadColor());
+    beginInsertRows(parent, rowCount(), rowCount() + count - 1);
+    for (int i = 0; i < count; ++i) {
+        m_field.append(newRow);
+    }
+    endInsertRows();
+    return true;
+}
+
+bool GameModel::removeRows(int row, int count, const QModelIndex &parent)
+{
+    if (count >= rowCount()) {
+        return false;
+    }
+
+    beginRemoveRows(parent, rowCount() - count, rowCount() - 1);
+    m_field.resize(rowCount() - count);
+    endRemoveRows();
+    return true;
+}
+
 void GameModel::step() noexcept
 {
     auto newField = m_field;
@@ -93,7 +151,7 @@ void GameModel::step() noexcept
     }
 
     m_field = std::move(newField);
-    emit dataChanged(index(0, 0), index(FIELD_SIZE - 1, FIELD_SIZE - 1), {ColorRole});
+    emit dataChanged(index(0, 0), index(rowCount() - 1, columnCount() - 1), {ColorRole});
 }
 
 void GameModel::clear() noexcept
@@ -105,9 +163,9 @@ void GameModel::clear() noexcept
 
 void GameModel::resizeField()
 {
-    m_field.resize(FIELD_SIZE);;
+    m_field.resize(DEFAULT_FIELD_SIZE);;
     for (auto& row : m_field) {
-        row.resize(FIELD_SIZE);
+        row.resize(DEFAULT_FIELD_SIZE);
         for (auto& cell : row) {
             cell = Qt::white;
         }

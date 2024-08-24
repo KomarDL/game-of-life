@@ -16,6 +16,7 @@ Window {
     GridLayout {
         anchors.fill: parent
         columns: 2
+        rows: 2
         rowSpacing: 5
         columnSpacing: 5
 
@@ -92,7 +93,11 @@ Window {
                 Layout.preferredHeight: 100
                 Layout.preferredWidth: 100
 
-                onClicked: gameModel.clear()
+                onClicked: function() {
+                    gameModel.clear()
+                    fieldHeight.value = gameModel.rowCount()
+                    fieldWidth.value = gameModel.columnCount();
+                }
             }
 
             Rectangle {
@@ -106,6 +111,64 @@ Window {
                     onDoubleClicked: colorPicker.open()
                 }
             }
+
+            SpinBox {
+                id: fieldHeight
+
+                font.pointSize: 20
+                Layout.minimumHeight: 50
+                Layout.preferredHeight: 50
+                Layout.preferredWidth: 100
+
+                editable: true
+                from: 10
+                value: gameModel.rowCount()
+                to: 200
+                wheelEnabled: true
+
+                onValueChanged: function() {
+                    if (gameModel.rowCount() > value) { // remove
+                        let toRemove = gameModel.rowCount() - value
+                        gameModel.removeRows(gameModel.rowCount() - toRemove - 1, toRemove)
+                    } else { // insert
+                        let toInsert = value - gameModel.rowCount()
+                        gameModel.insertRows(gameModel.rowCount(), toInsert)
+                    }
+                }
+            }
+
+            SpinBox {
+                id: fieldWidth
+
+                font.pointSize: 20
+                Layout.minimumHeight: 50
+                Layout.preferredHeight: 50
+                Layout.preferredWidth: 100
+
+                editable: true
+                from: 10
+                value: gameModel.columnCount()
+                to: 200
+                wheelEnabled: true
+
+                onValueChanged: function() {
+                    if (gameModel.columnCount() > value) { // remove
+                        let toRemove = gameModel.columnCount() - value
+                        gameModel.removeColumns(gameModel.columnCount() - toRemove - 1, toRemove)
+                    } else { // insert
+                        let toInsert = value - gameModel.columnCount()
+                        gameModel.insertColumns(gameModel.columnCount(), toInsert)
+                    }
+                }
+            }
+        }
+
+        Slider {
+            id: timeSlider
+            Layout.fillWidth: true
+            from: 1
+            value: (to - from) / 2
+            to: 490
         }
     }
 
@@ -118,7 +181,7 @@ Window {
 
     Timer {
         id: timer
-        interval: 50
+        interval: timeSlider.from + timeSlider.to - timeSlider.to * timeSlider.visualPosition
         repeat: true
         onTriggered: gameModel.step();
     }
